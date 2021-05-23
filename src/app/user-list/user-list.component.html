@@ -1,1 +1,16 @@
-<p>user-list works!</p>
+<div>{{test}}</div>
+
+<table>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>username</th>
+        <th>address</th>
+      </tr>
+    </thead>
+    <tbody>
+        <app-user-row *ngFor="let user of this.users" [user]="user"></app-user-row>
+        <!-- <tr app-user-row *ngFor="let user of this.users" [user]="user"></tr> -->
+    </tbody>
+  </table>
