@@ -1,0 +1,11 @@
+:host {
+    /* top: {{top}} */
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #000;
+    transition: .1s top;
+    white-space: nowrap;
+}

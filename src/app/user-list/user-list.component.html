@@ -1,5 +1,3 @@
-<div>{{test}}</div>
-
 <table>
     <thead>
       <tr>
@@ -9,8 +7,19 @@
         <th>address</th>
       </tr>
     </thead>
-    <tbody>
-        <app-user-row *ngFor="let user of this.users" [user]="user"></app-user-row>
+    <tbody
+    (mouseleave)="onMouseOut()"
+    (mouseenter)="onMouseEnter()">
+    <!-- (mouseout)="onMouseOut()"
+    (mouseover)="onMouseEnter()"> -->
+        <app-user-row *ngFor="let user of this.users; index as i"
+         (mousemove)="onHover($event, user)" [user]="user">
+        </app-user-row>
         <!-- <tr app-user-row *ngFor="let user of this.users" [user]="user"></tr> -->
     </tbody>
   </table>
+  <app-hover-title #titleElement [data]="currentHoverUser">
+    <div>{{currentHoverUser?.address.street}}</div>
+    <div>{{currentHoverUser?.address.suite}}</div>
+    <div>{{currentHoverUser?.address.city}}</div>
+  </app-hover-title>
