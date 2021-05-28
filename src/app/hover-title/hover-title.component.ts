@@ -4,7 +4,11 @@ import {
   state,
   style,
   animate,
-  transition
+  transition,
+  group,
+  animateChild,
+  query,
+  keyframes
 } from '@angular/animations';
 
 @Component({
@@ -14,11 +18,12 @@ import {
   host: {
     '[style.top.px]': 'top',
     '[style.left.px]': 'left',
-    '[@show]': "isHidden ? 'hidden' : 'visible'"
+    '[@show]': "'visible'",
+    '[@resize]': "data"
   },
   animations: [
     trigger('show', [
-      state('hidden', style({
+      state('void', style({
         transform: 'translateX(50px)',
         opacity: 0
       })),
@@ -26,24 +31,35 @@ import {
         transform: 'translateX(0px)',
         opacity: 1
       })),
-      // transition('visible => hidden', [
-      //   animate('.1s', style({
-      //     opacity: 0
-      //   }))
-      // ]),
-      transition('visible <=> hidden', [
+      transition(':enter, :leave', [
         animate('.1s')
+      ])
+    ])
+    ,
+    trigger('resize',[
+      transition('* <=> *',[
+        group([
+          animate('.15s', style({
+            height: '*',
+            width: '*'
+          })),
+          query('div', [
+            animate('.15s linear', keyframes([
+              style({ opacity: 0, offset: 0 }),
+              style({ opacity: 1, offset: 1 })
+            ]))
+          ])
+        ])
       ])
     ])
   ]
 })
-export class HoverTitleComponent implements OnInit {
+export class HoverTitleComponent<T> implements OnInit {
 
-  @Input() data: any;
+  @Input() data!: T;
 
-  top!: number
-  left!: number
-  isHidden: boolean = true
+  @Input() top!: number
+  @Input() left!: number
 
   constructor() { }
 
@@ -55,7 +71,6 @@ export class HoverTitleComponent implements OnInit {
   {
     this.left = value;
   }
-
   ngOnInit(): void {
     
   }

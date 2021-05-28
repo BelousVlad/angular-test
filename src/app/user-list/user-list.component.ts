@@ -11,10 +11,13 @@ import { UsersService } from '../users.service';
 export class UserListComponent implements OnInit, AfterViewInit {
 
   @ViewChild(HoverTitleComponent)
-  titleElement: HoverTitleComponent | undefined
+  titleElement: HoverTitleComponent<User> | undefined
+  titleLeft: number = 0
+  titleTop: number = 0
 
   users!: Array<User>
-  private currentHoverUser: User | null = null
+  currentHoverUser: User | null = null
+  
 
   constructor(private usersService: UsersService) { }
 
@@ -28,25 +31,30 @@ export class UserListComponent implements OnInit, AfterViewInit {
   onHover(event: MouseEvent, user: User)
   {
     let target: HTMLElement = event.currentTarget as HTMLElement;
-    
-    this.titleElement?.setTop(target.offsetTop + target.offsetHeight);
-    this.titleElement?.setLeft(event.x);
+
+    this.titleLeft = event.x;
+    this.titleTop = target.offsetTop + target.offsetHeight;
     this.currentHoverUser = user;
   }
 
-  onMouseEnter()
+  onMouseEnter(event: MouseEvent)
   {
-    if (this.titleElement && this.titleElement.isHidden)
-      this.titleElement.isHidden = false;
-
+    this.titleLeft = event.x;
+    this.titleTop = event.y;
   }
   onMouseOut()
   {
-    if (this.titleElement && !this.titleElement.isHidden)
-    {
-      this.titleElement.isHidden = true;
-    }
-      
+
+  }
+
+  onMouseTableOut()
+  {
+    this.currentHoverUser = null;
+  }
+
+  onClick()
+  {
+    this.titleElement?.setTop(0);
   }
 
   ngOnInit(): void {

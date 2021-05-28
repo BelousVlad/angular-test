@@ -9,7 +9,6 @@ import { Address } from './domain-model/Address';
   providedIn: 'root'
 })
 export class UsersService {
-
   constructor(private http: HttpClient) { }
 
   getUsers()

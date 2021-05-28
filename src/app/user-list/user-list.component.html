@@ -1,4 +1,4 @@
-<table>
+<table (mouseleave)="onMouseTableOut()" (click)="onClick()">
     <thead>
       <tr>
         <th>id</th>
@@ -9,7 +9,7 @@
     </thead>
     <tbody
     (mouseleave)="onMouseOut()"
-    (mouseenter)="onMouseEnter()">
+    (mouseenter)="onMouseEnter($event)">
     <!-- (mouseout)="onMouseOut()"
     (mouseover)="onMouseEnter()"> -->
         <app-user-row *ngFor="let user of this.users; index as i"
@@ -18,8 +18,8 @@
         <!-- <tr app-user-row *ngFor="let user of this.users" [user]="user"></tr> -->
     </tbody>
   </table>
-  <app-hover-title #titleElement [data]="currentHoverUser">
-    <div>{{currentHoverUser?.address.street}}</div>
-    <div>{{currentHoverUser?.address.suite}}</div>
-    <div>{{currentHoverUser?.address.city}}</div>
+  <app-hover-title *ngIf="currentHoverUser" #titleElement [data]="currentHoverUser" [top]="titleTop" [left]="titleLeft">
+    <div>{{currentHoverUser.address?.street}}</div>
+    <div>{{currentHoverUser.address?.suite}}</div>
+    <div>{{currentHoverUser.address?.city}}</div>
   </app-hover-title>
